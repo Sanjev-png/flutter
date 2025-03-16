@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Store Creator',
+      title: 'Store Creator ok',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -69,31 +69,32 @@ class _PermissionWrapperState extends State<PermissionWrapper> {
 
   Future<void> _requestPermission() async {
     final granted = await PermissionService.requestStoragePermission();
-    
+
     if (!granted && mounted) {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          title: const Text('Storage Permission Required'),
-          content: const Text(
-            'This app needs storage permission to save product data. '
-            'Please grant storage permission in app settings.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => openAppSettings(),
-              child: const Text('Open Settings'),
+        builder:
+            (context) => AlertDialog(
+              title: const Text('Storage Permission Required'),
+              content: const Text(
+                'This app needs storage permission to save product data. '
+                'Please grant storage permission in app settings.',
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => openAppSettings(),
+                  child: const Text('Open Settings'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _checkPermission();
+                  },
+                  child: const Text('Check Again'),
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                _checkPermission();
-              },
-              child: const Text('Check Again'),
-            ),
-          ],
-        ),
       );
     } else {
       setState(() {
@@ -105,11 +106,7 @@ class _PermissionWrapperState extends State<PermissionWrapper> {
   @override
   Widget build(BuildContext context) {
     if (!_permissionChecked) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     if (!_hasPermission) {
